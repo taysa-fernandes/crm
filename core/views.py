@@ -50,8 +50,19 @@ def deletar(request, pk):
         produto.delete()
         messages.success(request, 'Produto deletado com sucesso!')
         return redirect('index')
-
     return render(request, 'deletar.html', {'produto': produto})
+def vender(request,pk):
+    produto = get_object_or_404(Produto, pk=pk)
+    if request.method == 'POST':
+        quantidade = int(request.POST.get('quantidade'))
+        if quantidade > produto.estoque:
+            messages.error(request, f"A quantidade solicitada ({quantidade}) é maior do que o estoque disponível ({produto.estoque}).")
+        else:
+            produto.estoque -= quantidade
+            produto.save()
+            messages.success(request, f"{quantidade} unidades do produto {produto.nome} foram vendidas com sucesso!")
+            return redirect('index')
+    return render(request, 'vender.html', {'produto': produto})
 def error404(request,exception):
     template = loader.get_template('404.html')
     return HttpResponse(content=template.render(),content_type='text/html; charset=utf8',status=404)

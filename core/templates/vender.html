@@ -1,0 +1,23 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vender</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+    <h1>Vender Produto</h1>
+    <p>Produto: {{ produto.nome }}</p>
+    <p>Preço: R$ {{ produto.preco }}</p>
+    <p>Estoque disponível: {{ produto.estoque }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <label for="quantidade">Quantidade:</label>
+        <input type="number" name="quantidade" id="quantidade" min="1" max="{{ produto.estoque }}">
+        <br><br>
+        <input type="submit" value="Vender">
+    </form>
+</body>

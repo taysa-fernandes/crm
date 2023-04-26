@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.db.models import signals
-
+from django.contrib.auth import get_user_model
 
 class Base(models.Model):
     criado = models.DateField('data de criação', auto_now_add=True)
