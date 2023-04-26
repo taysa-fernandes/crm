@@ -11,7 +11,7 @@
 <body>
     <h1>Atualizar Produto</h1>
     {% if produto %}
-    <form action="{% url 'atualizar' %}" method="post" class="form" autocomplete="off">
+    <form action="{% url 'atualizar'  produto.id%}" method="post" class="form" autocomplete="off">
         {% csrf_token %}
         <input type="hidden" name="id" value="{{ produto.id }}">
         {{ form.as_p }}

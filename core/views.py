@@ -34,17 +34,15 @@ def produto(request):
 
 def atualizar(request, pk):
     produto = get_object_or_404(Produto, pk=pk)
+    form = ProdutoModelForm(request.POST or None, instance=produto)
 
     if request.method == 'POST':
-        form = ProdutoForm(request.POST, instance=produto)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Produto atualizado com sucesso!')
             return redirect('index')
-    else:
-        form = ProdutoForm(instance=produto)
     
-    return render(request, 'produto.html', {'form': form})
+    context = {'produto': produto, 'form': form}
+    return render(request, 'atualizar.html', context)
 
 def deletar(request, pk):
     produto = get_object_or_404(Produto, pk=pk)
@@ -53,7 +51,7 @@ def deletar(request, pk):
         messages.success(request, 'Produto deletado com sucesso!')
         return redirect('index')
 
-    return render(request, 'produto.html', {'produto': produto})
+    return render(request, 'deletar.html', {'produto': produto})
 def error404(request,exception):
     template = loader.get_template('404.html')
     return HttpResponse(content=template.render(),content_type='text/html; charset=utf8',status=404)

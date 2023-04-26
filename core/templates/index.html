@@ -16,6 +16,9 @@
             <tr>
                 <th>Produto</th>
                 <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ação atualizar</th>
+                <th>Ação deletar</th>
             </tr>
         </thead>
         <tbody>
@@ -23,12 +26,15 @@
             <tr>
                 <td><p>{{produto.nome}}</p></td>
                 <td><p>{{produto.preco}}</p></td>
+                <td><p>{{produto.estoque}}</p></td>
+                <td> <a href="{% url 'atualizar' produto.id %}">Atualizar produto</a></td>
+                <td> <a href="{% url 'deletar' produto.id %}">Deletar produto</a></td>
             </tr>
+       
         {%endfor%}
         </tbody>
     </table>
     <a href="{% url 'produto' %}">Adicionar produto</a>
-    <a href="{% url 'atualizar' %}">Atualizar produto</a>
     </center>
     <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
