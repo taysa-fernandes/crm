@@ -33,33 +33,27 @@ def produto(request):
     return render(request, 'produto.html', {'form': form})
 
 def atualizar(request, pk):
-    if str(request.user) != 'AnonymousUser':
-        produto = get_object_or_404(Produto, pk=pk)
-        if request.method == 'POST':
-            form = ProdutoModelForm(request.POST, request.FILES, instance=produto)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Produto atualizado com sucesso!')
-                return redirect('index')
-            else:
-                messages.error(request, 'Erro ao atualizar produto!')
-        else:
-            form = ProdutoModelForm(instance=produto)
-        context = {
-            'form': form
-        }
-        return render(request, 'produto.html', context)
+    produto = get_object_or_404(Produto, pk=pk)
+
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, instance=produto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Produto atualizado com sucesso!')
+            return redirect('index')
     else:
-        return redirect('index')
+        form = ProdutoForm(instance=produto)
+    
+    return render(request, 'produto.html', {'form': form})
 
 def deletar(request, pk):
-    if str(request.user) != 'AnonymousUser':
-        produto = get_object_or_404(Produto, pk=pk)
+    produto = get_object_or_404(Produto, pk=pk)
+    if request.method == 'POST':
         produto.delete()
-        messages.success(request, 'Produto excluído com sucesso!')
+        messages.success(request, 'Produto deletado com sucesso!')
         return redirect('index')
-    else:
-        return redirect('index')
+
+    return render(request, 'produto.html', {'produto': produto})
 def error404(request,exception):
     template = loader.get_template('404.html')
     return HttpResponse(content=template.render(),content_type='text/html; charset=utf8',status=404)

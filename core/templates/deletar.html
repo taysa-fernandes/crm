@@ -1,0 +1,20 @@
+{%  load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body>
+    <h1>Confirmar deleção</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <p>Você tem certeza que deseja deletar o produto '{{ produto.nome }}'? Esta ação não pode ser desfeita.</p>
+      <input type="text" name="nome" value="{{ produto.nome }}" disabled>
+      <button type="submit">Deletar</button>
+      <a href="{% url 'index' %}">Cancelar</a>
+    </form>
+</body>
