@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'LoginSerializer.backends.EmailBackend',  # Nome da classe que você criou para autenticação baseada em e-mail
+]
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

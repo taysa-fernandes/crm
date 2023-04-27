@@ -15,6 +15,13 @@
       <p>Você tem certeza que deseja deletar o produto '{{ produto.nome }}'? Esta ação não pode ser desfeita.</p>
       <input type="text" name="nome" value="{{ produto.nome }}" disabled>
       <button type="submit">Deletar</button>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
       <a href="{% url 'index' %}">Cancelar</a>
     </form>
 </body>

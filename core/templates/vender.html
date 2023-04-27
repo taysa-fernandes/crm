@@ -13,11 +13,19 @@
     <p>Produto: {{ produto.nome }}</p>
     <p>Preço: R$ {{ produto.preco }}</p>
     <p>Estoque disponível: {{ produto.estoque }}</p>
+    <p>Saldo atual: {{produto.saldo}}</p>
     <form method="post">
         {% csrf_token %}
         <label for="quantidade">Quantidade:</label>
         <input type="number" name="quantidade" id="quantidade" min="1" max="{{ produto.estoque }}">
         <br><br>
         <input type="submit" value="Vender">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </form>
 </body>
