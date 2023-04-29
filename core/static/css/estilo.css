@@ -77,7 +77,7 @@ body {
     margin: 0;
   }
   
-  table td a,a{
+  table td a,a,button{
     display: block;
     text-align: center;
     margin-top: 10px;
@@ -88,7 +88,7 @@ body {
     text-decoration: none;
   }
   
-  table td a:hover {
+  table td a, button:hover {
     background-color: #444;
   }
   

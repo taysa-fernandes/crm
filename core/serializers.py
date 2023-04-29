@@ -6,6 +6,8 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Produto
@@ -27,6 +29,11 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','email','password','tokens','proprietario']
+        extra_kwargs = {
+            'username': {'required': False, 'allow_blank': True, 'min_length': 8},
+            'passoword': {'required': True, 'write_only':True, 'allow_blank': False, 'min_length': 4},
+        }
+        unique_together = [('email')]
     def validate(self, attrs):
         email = attrs.get('email', '')
         password = attrs.get('password','')

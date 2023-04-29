@@ -97,14 +97,4 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         auth.login(request, user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-@api_view(['POST'])
-def register_user(request):
-    serializer = LoginSerializer(data=request.data)
-    if serializer.is_valid():
-        email = serializer.validated_data['email']
-        password = serializer.validated_data['password']
-        user = User.objects.create_user(email=email, password=password)
-        serializer = LoginSerializer(user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return render(request, 'login.html')
