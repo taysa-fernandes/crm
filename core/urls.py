@@ -12,5 +12,5 @@ urlpatterns=[
     path('vender/<int:pk>',vender,name='vender'),
     path('produtos/', ProdutoList.as_view(), name='produto_list'),
     path('produtos/<int:pk>/', ProdutoDetail.as_view(), name='produto_detail'),
-    path('login/', LoginView.as_view(), name='login'),
-]
+    path('api/login/', LoginView.as_view(), name='api-login'),
+    ]

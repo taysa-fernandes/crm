@@ -19,8 +19,9 @@ from .serializers import LoginSerializer
 
 from django.contrib import auth
 from rest_framework.decorators import api_view
-from django.contrib.auth.models import User
-
+from rest_framework.authtoken.models import Token
+from rest_framework import authentication, permissions
+from django.contrib.auth import authenticate
 
 def index(request):
     context = {
@@ -89,12 +90,20 @@ class ProdutoList(generics.ListCreateAPIView):
 class ProdutoDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer
-class LoginView(APIView):
-    serializer_class = LoginSerializer
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        auth.login(request, user)
-        return render(request, 'login.html')
+    def get(self, request, *args, **kwargs):
+            token = request.META.get('HTTP_AUTHORIZATION', None)
+            if token is not None:
+                user = authentication.TokenAuthentication().authenticate_credentials(token)
+                if user is not None:
+                    return Response({'token': token})
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            user = authenticate(username=user, password=password)
+            if user is not None:
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key})
+            else:
+                return Response({'error': 'usuario ou senha invalido'})
